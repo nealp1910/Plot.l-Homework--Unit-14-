@@ -9,12 +9,12 @@ d3.json(url).then(function(data) {
 // function does not run until called
 // code that runs once (only on page load or refresh)
 // create dropdown/select
-d3.json("samples.json").then(function(incomingData) {
+d3.json("samples.json").then(function(jsonData) {
     
     //Populate the dropdown
     d3.select("#selDataset")
         .selectAll("option")
-        .data(incomingData.names)
+        .data(jsonData.names)
         .enter()
         .append("option")
         .text(d=>d)
@@ -70,7 +70,7 @@ function createGauge(num) {
     {
         domain: { x: [0, 1], y: [0, 1] },
         value: num,
-        title: "Belly Button Washing Frequenc",
+        title: "Belly Button Washing Frequency",
         type: "indicator",
         mode: "gauge+number",
         gauge: {
@@ -104,11 +104,11 @@ function Meta(data) {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Code that makes list, paragraph, text/linebreaks at id='sample-meta'
 function optionChanged(value) {
-    d3.json("samples.json").then(function(incomingData) {
-        var metadata = incomingData.metadata.filter(data => data.id ==value);
+    d3.json("samples.json").then(function(jsonData) {
+        var metadata = jsonData.metadata.filter(data => data.id ==value);
         console.log(metadata);
 
-        var sample = incomingData.samples.filter(data => data.id ==value);
+        var sample = jsonData.samples.filter(data => data.id ==value);
         console.log(sample);
 
         createBar(sample[0].sample_values.slice(0,10).reverse(),sample[0].otu_ids.slice(0,10).reverse().map(a=>"OTU "+ a),sample[0].otu_labels.slice(0,10).reverse());
